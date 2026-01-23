@@ -1,6 +1,15 @@
 const container = document.getElementById("grid");
 const button = document.getElementById("squares");
 let darkeningEnabled = true;
+let penDown = false;
+
+const penButton = document.getElementById("pen-toggle");
+
+penButton.addEventListener("click", () => {
+    penDown = !penDown;
+    penButton.textContent = penDown ? "Pen DOWN" : "Pen UP";
+});
+
 
 const toggleButton = document.getElementById("toggle-darkening");
 
@@ -44,6 +53,9 @@ function grid(size) {
 
             // add hover behavior
             cell.addEventListener("mouseover", () => {
+
+                 // Only draw if pen is down
+                if (!penDown) return;
 
                 if (!cell.dataset.darkness) {
                     cell.dataset.darkness = 0;
