@@ -35,7 +35,13 @@ function grid(size) {
 
             // add hover behavior
             cell.addEventListener("mouseover", () => {
-                cell.classList.add("active");
+                // cell.classList.add("active");
+                // cell.style.backgroundColor = pickColor();
+                if (getMode() === "color") {
+                    cell.style.backgroundColor = pickColor();
+                } else {
+                    cell.style.backgroundColor = "black";
+    }
             });
 
             row.appendChild(cell);
@@ -45,3 +51,15 @@ function grid(size) {
     }
 }
 
+function pickColor() {
+    const colors = [
+        '#ff0000', '#00ff00', '#0000ff',
+        '#ff3333', '#ffff00', '#ff6600'
+    ];
+
+    return colors[Math.floor(Math.random() * colors.length)];
+}
+
+function getMode() {
+    return document.querySelector('input[name="mode"]:checked').value;
+}
