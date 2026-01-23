@@ -35,26 +35,25 @@ function grid(size) {
 
             // add hover behavior
             cell.addEventListener("mouseover", () => {
-                
-    
-                if (!cell.dataset.opacity) cell.dataset.opacity = 0;
-                cell.style.opacity = 0;
 
-                if (getMode() === "color") {
-                    cell.style.backgroundColor = pickColor();
-                } else {
-                    cell.style.backgroundColor = "black";
+                if (!cell.dataset.darkness) {
+                    cell.dataset.darkness = 0;
                 }
 
-                let opacity = parseFloat(cell.dataset.opacity);
-                if (opacity >= 1) return;
+                let darkness = parseFloat(cell.dataset.darkness);
 
-                
-                opacity = Math.min(1, opacity + 0.1);
-                cell.dataset.opacity = opacity;
-                cell.style.opacity = opacity;                          
-                                
+                if (darkness >= 1) return;
+
+                darkness = Math.min(1, darkness + 0.1);
+                cell.dataset.darkness = darkness;
+
+                if (getMode() === "color") {                    
+                    cell.style.backgroundColor = pickRgbaColor(darkness);
+                } else {
+                    cell.style.backgroundColor = `rgba(0, 0, 0, ${darkness})`;
+                }
             });
+
 
             row.appendChild(cell);
         }
@@ -63,14 +62,21 @@ function grid(size) {
     }
 }
 
-function pickColor() {
+function pickRgbaColor(alpha) {
     const colors = [
         '#ff0000', '#00ff00', '#0000ff',
         '#ff3333', '#ffff00', '#ff6600'
     ];
 
-    return colors[Math.floor(Math.random() * colors.length)];
+    const hex = colors[Math.floor(Math.random() * colors.length)];
+
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
+
 
 function getMode() {
     return document.querySelector('input[name="mode"]:checked').value;
