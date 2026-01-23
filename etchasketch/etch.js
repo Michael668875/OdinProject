@@ -35,13 +35,25 @@ function grid(size) {
 
             // add hover behavior
             cell.addEventListener("mouseover", () => {
-                // cell.classList.add("active");
-                // cell.style.backgroundColor = pickColor();
+                
+    
+                if (!cell.dataset.opacity) cell.dataset.opacity = 0;
+                cell.style.opacity = 0;
+
                 if (getMode() === "color") {
                     cell.style.backgroundColor = pickColor();
                 } else {
                     cell.style.backgroundColor = "black";
-    }
+                }
+
+                let opacity = parseFloat(cell.dataset.opacity);
+                if (opacity >= 1) return;
+
+                
+                opacity = Math.min(1, opacity + 0.1);
+                cell.dataset.opacity = opacity;
+                cell.style.opacity = opacity;                          
+                                
             });
 
             row.appendChild(cell);
