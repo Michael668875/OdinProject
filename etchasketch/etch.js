@@ -8,6 +8,12 @@ function grid() {
         for (let i = 0; i < 16; i++) {
             const cell = document.createElement("div");
             cell.className = "cell";
+
+            // add hover behavior
+            cell.addEventListener("mouseover", () => {
+                cell.classList.add("active");
+            });
+
             row.appendChild(cell);
         }
 

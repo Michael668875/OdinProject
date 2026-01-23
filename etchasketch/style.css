@@ -11,3 +11,6 @@
 .cell:hover {
   background-color: yellow;  
 }
+.cell.active {
+    background-color: black;
+}
