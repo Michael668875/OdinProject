@@ -1,5 +1,14 @@
 const container = document.getElementById("grid");
 const button = document.getElementById("squares");
+let darkeningEnabled = true;
+
+const toggleButton = document.getElementById("toggle-darkening");
+
+toggleButton.addEventListener("click", () => {
+    darkeningEnabled = !darkeningEnabled;
+    toggleButton.textContent = darkeningEnabled ? "Shading ON" : "Shading OFF";
+});
+
 
 button.addEventListener("click", () => {
     let size = prompt("Enter grid size (4 - 100):");
@@ -42,11 +51,16 @@ function grid(size) {
 
                 let darkness = parseFloat(cell.dataset.darkness);
 
-                if (darkness >= 1) return;
+                if (darkeningEnabled) {
+                    if (darkness >= 1) return;
 
-                darkness = Math.min(1, darkness + 0.1);
-                cell.dataset.darkness = darkness;
-
+                    darkness = Math.min(1, darkness + 0.1);
+                    cell.dataset.darkness = darkness;
+                } else {
+                    // if darkening is off, set darkness to full immediately
+                    darkness = 1;
+                    cell.dataset.darkness = darkness;
+                }
                 if (getMode() === "color") {                    
                     cell.style.backgroundColor = pickRgbaColor(darkness);
                 } else {
